@@ -36,66 +36,72 @@ client.on("guildCreate", guild => {
 });
 
 client.on("message", async function(msg) {
-  let content = msg.content; 
+  try {
+    let content = msg.content; 
 
-  if (typeof(content) != "string" || msg.author.bot || msg.guild == null) {
-    return;
-  }
+    if (typeof(content) != "string" || msg.author.bot || msg.guild == null) {
+      return;
+    }
 
-  //TODO: Log guild data if guild is new 
+    //TODO: Log guild data if guild is new 
 
-  let prefix = ""; 
-  let detected = false;
-  
-  if (content.startsWith(`<@${client.user.id}>`)) {
-    prefix = `<@${client.user.id}>`;
-    detected = true;
-  }
-  else if (content.startsWith(`<@!${client.user.id}>`)) {
-    prefix = `<@!${client.user.id}>`;
-    detected = true;
-  }
-  else {
-    prefix = defaultCommandPrefix; 
-    //TODO: Custom prefixes for each guild
-  }
+    let prefix = ""; 
+    let detected = false;
+    
+    if (content.startsWith(`<@${client.user.id}>`)) {
+      prefix = `<@${client.user.id}>`;
+      detected = true;
+    }
+    else if (content.startsWith(`<@!${client.user.id}>`)) {
+      prefix = `<@!${client.user.id}>`;
+      detected = true;
+    }
+    else {
+      prefix = defaultCommandPrefix; 
+      //TODO: Custom prefixes for each guild
+    }
 
-  if (detected || content.substr(0, prefix.length) == prefix) {
-    //This is an attempt to communicate to the bot!
-    try {
-      //Removing prefix 
-      content = content.replace(prefix, ""); 
+    if (detected || content.substr(0, prefix.length) == prefix) {
+      //This is an attempt to communicate to the bot!
+      try {
+        //Removing prefix 
+        content = content.replace(prefix, ""); 
 
-      //Getting array of tokens  
-      let tokens = lexer.tokenizeString(content); 
+        //Getting array of tokens  
+        let tokens = lexer.tokenizeString(content); 
 
-      //Getting command name
-      let commandName = tokens.shift().toLowerCase(); 
+        //Getting command name
+        let commandName = tokens.shift().toLowerCase(); 
 
-      if (botData.commands.hasOwnProperty(commandName)) {
-        //Running command script
-        botData.commands[commandName].main(msg, tokens, botData); 
+        if (botData.commands.hasOwnProperty(commandName)) {
+          //Running command script
+          botData.commands[commandName].main(msg, tokens, botData); 
+        }
+        else {
+          msg.channel.send("Invalid command!"); 
+        }
       }
-      else {
-        msg.channel.send("Invalid command!"); 
+      catch (err) {
+        console.log(err);
+        console.log(`Could not process a command. msg.content: \n${msg.content}`);
+      }
+    } 
+
+    for (let i in botData.triggers) { 
+      try { 
+        botData.triggers[i].main(msg, botData);
+      }
+      catch (err) {
+        console.log(err);
+        console.log(`Could not process a trigger. msg.content: \n${msg.content}`);
       }
     }
-    catch (err) {
-      console.log(err);
-      console.log(`Could not process a command. msg.content: \n${msg.content}`);
-    }
-  } 
-
-  for (let i in botData.triggers) { 
-    try { 
-      botData.triggers[i].main(msg, botData);
-    }
-    catch (err) {
-      console.log(err);
-      console.log(`Could not process a trigger. msg.content: \n${msg.content}`);
-    }
   }
-
+  catch (err) {
+    console.log(`Uncaugh error in message handler, msg: ${msg}`); 
+    console.log("Error: ");
+    console.log(err); 
+  }
 }); //End of client message event handler
 
 client.on("messageReactionAdd", function (reaction, user) {
@@ -105,7 +111,7 @@ client.on("messageReactionAdd", function (reaction, user) {
 
   try {
     if (reaction.emoji.name == "❓") {
-      console.log("Detected ❓ reaction"); 
+      //console.log("Detected ❓ reaction"); 
       let msg = reaction.message;
       reaction.remove(); 
       msg.react("⬆️"); 
