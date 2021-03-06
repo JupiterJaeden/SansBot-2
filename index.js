@@ -42,6 +42,8 @@ client.on("message", async function(msg) {
     return;
   }
 
+  //TODO: Log guild data if guild is new 
+
   let prefix = ""; 
   let detected = false;
   
@@ -95,3 +97,23 @@ client.on("message", async function(msg) {
   }
 
 }); //End of client message event handler
+
+client.on("messageReactionAdd", function (reaction, user) {
+  if (user.bot) { 
+    return;
+  }
+
+  try {
+    if (reaction.emoji.name == "❓") {
+      console.log("Detected ❓ reaction"); 
+      let msg = reaction.message;
+      reaction.remove(); 
+      msg.react("⬆️"); 
+      msg.react("⬇️"); 
+    }
+  }
+  catch (err) {
+    console.log("Error in messageReactionAdd event handler:"); 
+    console.log(err); 
+  }
+});
