@@ -1,5 +1,5 @@
 exports.name = "help"; 
-exports.description = "Prints a list of all commands"
+exports.description = "Prints a list of all commands";
 
 exports.main = function helpCommand(msg, tokens, botData) {
   for (let name in botData.commands) { 

@@ -1,0 +1,17 @@
+//All trigger scripts must follow this template.
+//Triggers are different from commands in that they fire for every message. Use sparingly.
+
+exports.name = "your_trigger_name"; //This can technically be anything, but should follow the same convention as command names.
+exports.description = "Your trigger description";
+
+//Usually your script name should be the same as the trigger name, but it doesn't have to be. 
+
+exports.main = yourFunctionHere(msg, botData) {
+  //Your function body here
+}
+
+/*
+Of course the names don't have to be the same, but: 
+msg is the discord.js message object 
+botData is a BotData object describing all data this bot has collected
+*/

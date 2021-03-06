@@ -1,7 +1,7 @@
-//All commands must follow this template.
+//All command scripts must follow this template.
 
 exports.name = "your_command_name"; //You should make this lowercase by convention, even though it will be made lowercase anyways (since command names are case-insensitive). Also make sure this is one word
-exports.description = "Your command description" 
+exports.description = "Your command description"; 
 
 //Usually your script name should be the same as the command name, but it doesn't have to be. 
 
@@ -9,7 +9,9 @@ exports.main = yourFunctionHere(msg, tokens, botData) {
   //Your function body here
 }
 
+/*
 Of course the names don't have to be the same, but: 
 msg is the discord.js message object 
 tokens is an array of every token in the message, except for the command itself (and the prefix)
 botData is a BotData object describing all data this bot has collected
+*/

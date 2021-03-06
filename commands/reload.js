@@ -1,10 +1,13 @@
 exports.name = "reload"; 
-exports.description = "Reloads all commands from the commands/ directory into botData.commands"
+exports.description = "Reloads all commands & triggers (in theory)";
 
 exports.main = function reloadCommand(msg, tokens, botData) {
   console.log("Reload command triggered, reloading all command modules..."); 
   botData.readCommandsFromDirectory(); 
 
-  msg.channel.send("Commands reloaded!"); 
+  console.log("Reloading all trigger modules..."); 
+  botData.readTriggersFromDirectory();
+
+  msg.channel.send("Commands & triggers reloaded!"); 
 }
 

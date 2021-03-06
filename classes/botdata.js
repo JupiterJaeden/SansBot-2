@@ -4,14 +4,15 @@ const fs = require("fs");
 class BotData { 
   static currentVersion = "2.0";
 
-  /* NON-SERIALIZED */ 
   commands = {}; //Object with all commands 
+  triggers = []; //Array with all triggers
 
-  /* SERIALIZED */ 
-  version = BotData.currentVersion; //Version format: <major>.<minor>
+  //Version format: <major>.<minor>
+  version = BotData.currentVersion; 
 
   constructor() {
     this.readCommandsFromDirectory(); 
+    this.readTriggersFromDirectory(); 
   }
 
   readData(filename) {
@@ -32,14 +33,34 @@ class BotData {
     for (let file of fileNames) {
       if (file.endsWith(".js")) {
         console.log(file);
-        let module; 
         try {
-          module = require(`../commands/${file}`);
+          let module = require(`../commands/${file}`);
+          this.commands[module.name.toLowerCase()] = module;
         } 
         catch (err) {
           console.log(err);
         }
-        this.commands[module.name.toLowerCase()] = module;
+      }
+    }
+  }
+
+  readTriggersFromDirectory() { 
+    console.log("Reading all triggers into triggers object"); 
+    this.triggers = []; 
+
+    //Same weirdness as with the commands folder
+    let fileNames = fs.readdirSync("./triggers");
+
+    for (let file of fileNames) {
+      if (file.endsWith(".js")) {
+        console.log(file);
+        try {
+          let module = require(`../triggers/${file}`);
+          this.triggers.push(module); 
+        } 
+        catch (err) {
+          console.log(err);
+        }
       }
     }
   }

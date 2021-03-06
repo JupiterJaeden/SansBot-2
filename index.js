@@ -27,8 +27,6 @@ client.on("ready", () => {
   console.log(client.user.username);
 });
 
-//TODO: read botData from JSON file
-
 console.log("Logging into client..."); 
 client.login(token);
 console.log("client.login() has been called")
@@ -45,19 +43,22 @@ client.on("message", async function(msg) {
   }
 
   let prefix = ""; 
-
-  if (content.includes(`<@${client.user.id}>`)) {
+  let detected = false;
+  
+  if (content.startsWith(`<@${client.user.id}>`)) {
     prefix = `<@${client.user.id}>`;
+    detected = true;
   }
-  else if (content.includes(`<@!${client.user.id}>`)) {
+  else if (content.startsWith(`<@!${client.user.id}>`)) {
     prefix = `<@!${client.user.id}>`;
+    detected = true;
   }
   else {
     prefix = defaultCommandPrefix; 
     //TODO: Custom prefixes for each guild
   }
 
-  if (content.substr(0, prefix.length) == prefix) {
+  if (detected || content.substr(0, prefix.length) == prefix) {
     //This is an attempt to communicate to the bot!
     try {
       //Removing prefix 
@@ -79,10 +80,18 @@ client.on("message", async function(msg) {
     }
     catch (err) {
       console.log(err);
-      console.log("Could not process a command. msg.content: \n" + msg.content);
+      console.log(`Could not process a command. msg.content: \n${msg.content}`);
     }
   } 
-  
-  //TODO: Add ability to process every message, regardless of whether it is or is not a command
+
+  for (let i in botData.triggers) { 
+    try { 
+      botData.triggers[i].main(msg, botData);
+    }
+    catch (err) {
+      console.log(err);
+      console.log(`Could not process a trigger. msg.content: \n${msg.content}`);
+    }
+  }
 
 }); //End of client message event handler
