@@ -1,0 +1,20 @@
+Welcome to Sans bot!
+**Y O U  F E E L  L I K E  Y O U ' R E  G O I N G  T O  H A V E  A  B A D  T I M E.**
+Anyway, sans undertale
+List of Commands:
+__help__ - Displays this message.
+__ping__ - Pings the bot for response time.
+__prefix [new prefix]__ - Sets bot prefix.
+__ghost__ - Pings a random person on the server and then immediately deletes the message. \
+If you are caught using this, we will accuse you of admin abuse. \
+There is a 60 second cooldown between uses of this command, for the server.
+__adminabuse [name]__ - Changes every channel name to whatever parameter given. \
+Run it again with “revert” as the name (adminabuse revert) to change them back. \
+Anyone with perms can use revert, not just the user who first changed it. \
+Please keep in mind that because text channels are included your name given should be one word, not multiple.
+__wisdom__ - Use this command to receive a random parsel of advice from the great Sans Bot House of Wisdom.
+wisdom add [advice] can be used to add your own bit of wisdom.
+wisdom timer [seconds] to send a random piece of wisdom every interval.
+wisdom list shows the entire Sans Bot House of Wisdom.
+__fsa__ - This command is a work in progress. There will be a separate
+help menu when it is complete.
