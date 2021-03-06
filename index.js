@@ -7,11 +7,11 @@ https://discordapp.com/oauth2/authorize?scope=bot&client_id=517053526418128899
 const Discord = require("discord.js");
 const fs = require("fs");
 const util = require("./utility.js");
-let keepAlive = require('./keep_alive.js');
+const keepAlive = require('./keep_alive.js');
 
 //Class libraries
-const lib_lexer = require("./classes/lexer.js");
-const lib_botdata = require ("./classes/botdata.js"); 
+const {Lexer} = require("./classes/lexer.js");
+const {BotData} = require ("./classes/botdata.js"); 
 
 //Bot token definition (repl.it based)
 const token = process.env.DISCORD_BOT_SECRET;
@@ -19,8 +19,8 @@ const token = process.env.DISCORD_BOT_SECRET;
 //Important variable definitions
 let client = new Discord.Client();
 let defaultCommandPrefix = "&";
-let lexer = new lib_lexer.Lexer(" \n"); 
-let botData = new lib_botdata.BotData(); 
+let lexer = new Lexer(" \n"); 
+let botData = new BotData(); 
 
 client.on("ready", () => {
   console.log("You're gonna have a bad time");
