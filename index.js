@@ -114,8 +114,8 @@ client.on("messageReactionAdd", function (reaction, user) {
       //console.log("Detected ❓ reaction"); 
       let msg = reaction.message;
       reaction.remove(); 
-      msg.react("⬆️"); 
-      msg.react("⬇️"); 
+      msg.react("<:upvote:817887470032781333>"); 
+      msg.react("<:downvote:817887484548612106>"); 
     }
   }
   catch (err) {
